@@ -1,8 +1,8 @@
-import { Component,HostListener,HostBinding,Output,Input,ViewChild,EventEmitter} from '@angular/core';
+import { Component,HostListener,HostBinding,Output,Input,ViewChild,EventEmitter,ComponentFactoryResolver,ngAfterViewInit,ViewContainerRef} from '@angular/core';
 @Component({
   selector: 'widget',
   template: '<div [ngStyle]="widgetStyle"> <span [ngStyle]="headerStyle" #header class="widget-header"></span>'+
-  '<div [ngStyle]="contentStyle"> </div>'+
+  '<div [ngStyle]="contentStyle"><span  #target></span> </div>'+
   '<span [ngStyle]="resizeStyle" #resizer class="widget-resize"></span> </div>'
 })
 export class NgWidget {
@@ -45,9 +45,13 @@ export class NgWidget {
   public mousePoint:any= {};
 
   @Output() onActivateWidget = new EventEmitter<NgWidget>();
+  @Input() content;
 
   @ViewChild('header') header;
   @ViewChild('resizer') resizer;
+  @ViewChild('target', {read: ViewContainerRef}) target: ViewContainerRef;
+
+  constructor(private componentFactoryResolver: ComponentFactoryResolver){}
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(e){
@@ -73,4 +77,8 @@ export class NgWidget {
     this.isResize = false;
   }
 
+  ngOnChanges(){
+    let factory = this.componentFactoryResolver.resolveComponentFactory(this.content);
+    this.target.createComponent(factory)
+  }
 }

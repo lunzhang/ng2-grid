@@ -1,5 +1,6 @@
 import { Component, ViewChild,ngAfterViewInit} from '@angular/core';
 import { NgGrid } from '../src/main';
+import { ContentComponent } from './content/content.component';
 
 @Component({
     selector: 'my-app',
@@ -10,7 +11,8 @@ export class AppComponent {
     @ViewChild(NgGrid) grid : NgGrid;
 
     ngAfterViewInit(){
-      this.grid.addWidget();
+      var widget = this.grid.addWidget();
+      widget.content = ContentComponent;
     }
 
 }

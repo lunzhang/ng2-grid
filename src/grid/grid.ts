@@ -4,7 +4,7 @@ import { NgWidget } from '../widget/widget';
 
 @Component({
   selector: 'grid',
-  template: '<div [ngStyle]="gridStyle"> <widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" > </widget> </div>'
+  template: '<div [ngStyle]="gridStyle"> <widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" [content]="widget.content"> </widget> </div>'
 })
 export class NgGrid {
 
