@@ -1,7 +1,9 @@
-import { Component,HostListener,HostBinding,Output,ViewChild,EventEmitter} from '@angular/core';
+import { Component,HostListener,HostBinding,Output,Input,ViewChild,EventEmitter} from '@angular/core';
 @Component({
   selector: 'widget',
-  template: '<div [ngStyle]="widgetStyle"><span [ngStyle]="headerStyle" #header class="widget-header"></span><span [ngStyle]="resizeStyle" #resizer class="widget-resize"></span></div>'
+  template: '<div [ngStyle]="widgetStyle"> <span [ngStyle]="headerStyle" #header class="widget-header"></span>'+
+  '<div [ngStyle]="contentStyle"> </div>'+
+  '<span [ngStyle]="resizeStyle" #resizer class="widget-resize"></span> </div>'
 })
 export class NgWidget {
 
@@ -27,10 +29,15 @@ export class NgWidget {
   }
   public headerStyle={
     'width': '100%',
-    'height': (<any>this.widgetStyle.height/10).toString(),
+    'height': 50,
     'position':'absolute',
     'border-bottom':'1px solid black',
     'cursor':'move'
+  }
+  public contentStyle={
+    'top': this.headerStyle.height,
+    'position':'relative',
+    'height': 'calc(100% - ' + this.headerStyle.height +'px)'
   }
 
   public isDrag:boolean=false;
