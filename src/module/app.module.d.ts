@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgGrid } from './grid/grid';
-import { NgWidget } from './widget/widget';
+import { NgGrid } from '../grid/grid';
+import { NgWidget } from '../widget/widget';
 
 @NgModule({
   imports:[BrowserModule],

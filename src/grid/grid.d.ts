@@ -22,7 +22,6 @@ export class NgGrid {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(e){
-
   }
 
   @HostListener('mousemove', ['$event'])
