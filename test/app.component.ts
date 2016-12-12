@@ -1,5 +1,5 @@
 import { Component, ViewChild,ngAfterViewInit} from '@angular/core';
-import { NgGrid } from 'ng2-grid-component';
+import { NgGrid } from '../src/main';
 import { ContentComponent } from './content/content.component';
 
 @Component({

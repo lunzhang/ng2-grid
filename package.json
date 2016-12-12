@@ -47,7 +47,7 @@
     "lite-server": "^2.2.2",
     "typescript": "^2.0.3",
 
-    "ng2-grid-component":"0.1.21"
+    "ng2-grid-component":"~0.1.21"
   },
   "typings":"src/main.d.ts"
 }

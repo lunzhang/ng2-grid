@@ -1,14 +1,15 @@
-import { Component,HostListener,ViewChildren,ngAfterViewInit} from '@angular/core';
-import { NgStyle } from "@angular/common";
+import { Component,HostListener,ViewChild,ViewChildren,ngAfterViewInit} from '@angular/core';
 import { NgWidget } from '../widget/widget';
+import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
 
 @Component({
   selector: 'grid',
-  template: '<div [ngStyle]="gridStyle"> <widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" [content]="widget.content"> </widget> </div>'
+    template: '<div [ngStyle]="gridStyle"> <widget-shadow > </widget-shadow> <widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" [content]="widget.content"> </widget> </div>'
 })
 export class NgGrid {
 
   @ViewChildren(NgWidget) ngWidgets : QueryList<NgWidget>;
+  @ViewChild(NgWidgetShadow) ngWidgetShadow;
 
   public gridStyle= {
     'width':'100%',
@@ -56,6 +57,7 @@ export class NgGrid {
   }
 
   onActivateWidget(widget:NgWidget){
+    this.ngWidgetShadow.setShadowStyle(widget.widgetStyle);
     this.activeWidget = widget;
   }
 
@@ -78,6 +80,10 @@ export class NgGrid {
 
   ngAfterViewInit(){
 
+  }
+
+  empty(){
+    this.widgets = [];
   }
 
 }

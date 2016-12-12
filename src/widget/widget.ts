@@ -1,9 +1,10 @@
 import { Component,HostListener,HostBinding,Output,Input,ViewChild,EventEmitter,ComponentFactoryResolver,ngAfterViewInit,ViewContainerRef} from '@angular/core';
 @Component({
   selector: 'widget',
-  template: '<div [ngStyle]="widgetStyle"> <span [ngStyle]="headerStyle" #header class="widget-header"></span>'+
+  template: '<div [ngStyle]="widgetStyle">'+
+  '<div [ngStyle]="headerStyle" #header class="widget-header"> </div>'+
   '<div [ngStyle]="contentStyle"><span  #target></span> </div>'+
-  '<span [ngStyle]="resizeStyle" #resizer class="widget-resize"></span> </div>'
+  '<div [ngStyle]="resizeStyle" #resizer class="widget-resize"></div> </div>'
 })
 export class NgWidget {
 
@@ -81,4 +82,6 @@ export class NgWidget {
     let factory = this.componentFactoryResolver.resolveComponentFactory(this.content);
     this.target.createComponent(factory)
   }
+
+
 }
