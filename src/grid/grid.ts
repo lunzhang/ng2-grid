@@ -115,15 +115,15 @@ export class NgGrid {
   }
 
   private _getPosition(){
-    let col = Math.round(this.activeWidget.style.left / (this.gridConfig.colWidth + this.gridConfig.marginLeft + this.gridConfig.marginRight))+ 1;
-		let row = Math.round(this.activeWidget.style.top / (this.gridConfig.rowHeight + this.gridConfig.marginTop + this.gridConfig.marginBottom)) + 1;
+    let col = Math.round(this.activeWidget.style.left / (this.gridConfig.colWidth + this.gridConfig.marginLeft/2))+ 1;
+		let row = Math.round(this.activeWidget.style.top / (this.gridConfig.rowHeight + this.gridConfig.marginTop/2)) + 1;
 
     return {'col':col,'row':row};
   }
 
   private _getSize(){
-    let x =  Math.round(this.activeWidget.style.width / (this.gridConfig.colWidth + this.gridConfig.marginLeft + this.gridConfig.marginRight));
-    let y =  Math.round(this.activeWidget.style.height / (this.gridConfig.rowHeight + this.gridConfig.marginLeft + this.gridConfig.marginRight));
+    let x =  Math.round(this.activeWidget.style.width / (this.gridConfig.colWidth + this.gridConfig.marginLeft/2));
+    let y =  Math.round(this.activeWidget.style.height / (this.gridConfig.rowHeight + this.gridConfig.marginTop/2));
 
     return {'x':x,'y':y};
   }
