@@ -4,10 +4,13 @@ import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
 
 @Component({
   selector: 'grid',
-    template: '<div [ngStyle]="gridStyle"> <widget-shadow > </widget-shadow> <widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" [content]="widget.content"> </widget> </div>'
+    template: '<div #grid [ngStyle]="gridStyle"> <widget-shadow [gridConfig]="gridConfig" > </widget-shadow>'+
+    '<widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" '+
+    '[content]="widget.content" [position]="widget.position" [gridConfig]="gridConfig" > </widget> </div>'
 })
 export class NgGrid {
 
+  @ViewChild('grid') grid;
   @ViewChildren(NgWidget) ngWidgets : QueryList<NgWidget>;
   @ViewChild(NgWidgetShadow) ngWidgetShadow;
 
@@ -17,7 +20,14 @@ export class NgGrid {
     'background-color':'lightgrey',
     'position':'relative'
   };
-
+  public gridConfig={
+    colWidth:250,
+    rowHeight:180,
+    marginLeft:10,
+    marginTop:10,
+    marginRight:10,
+    marginBottom:10
+  };
   public activeWidget:NgWidget;
   public widgets=[];
 
@@ -29,19 +39,29 @@ export class NgGrid {
   onMouseMove(e){
       if(this.activeWidget){
         if(this.activeWidget.isDrag){
-          var dx = e.screenX - this.activeWidget.mousePoint.x;
-          var dy = e.screenY - this.activeWidget.mousePoint.y;
-          if(this.activeWidget.widgetStyle.top > 0 || dy > 0){
-            this.activeWidget.widgetStyle.top = this.activeWidget.widgetStyle.top + dy > 0 ? this.activeWidget.widgetStyle.top + dy : 0;
+          let dx = e.screenX - this.activeWidget.mousePoint.x;
+          let dy = e.screenY - this.activeWidget.mousePoint.y;
+          let gridPos = this._getPosition();
+
+          if(this.ngWidgetShadow.position.row != gridPos.row || this.ngWidgetShadow.position.col != gridPos.col){
+            this.ngWidgetShadow.setPosition(gridPos);
+          }
+          if(this.activeWidget.style.top > 0 || dy > 0){
+            this.activeWidget.style.top = this.activeWidget.style.top + dy > 0 ? this.activeWidget.style.top + dy : 0;
             this.activeWidget.mousePoint.y = e.screenY;
           }
-          if(this.activeWidget.widgetStyle.left > 0 || dx > 0){
-            this.activeWidget.widgetStyle.left = this.activeWidget.widgetStyle.left + dx > 0 ? this.activeWidget.widgetStyle.left + dx : 0;
+          if(this.activeWidget.style.left > 0 || dx > 0){
+            this.activeWidget.style.left = this.activeWidget.style.left + dx > 0 ? this.activeWidget.style.left + dx : 0;
             this.activeWidget.mousePoint.x = e.screenX;
           }
         } else if(this.activeWidget.isResize){
-          this.activeWidget.widgetStyle.height =  this.activeWidget.widgetStyle.height + (e.screenY - this.activeWidget.mousePoint.y);
-          this.activeWidget.widgetStyle.width = this.activeWidget.widgetStyle.width + (e.screenX - this.activeWidget.mousePoint.x);
+          let size = this._getSize();
+
+          if(this.ngWidgetShadow.size.x != size.x || this.ngWidgetShadow.size.y != size.y){
+            this.ngWidgetShadow.setSize(size);
+          }
+          this.activeWidget.style.height =  this.activeWidget.style.height + (e.screenY - this.activeWidget.mousePoint.y);
+          this.activeWidget.style.width = this.activeWidget.style.width + (e.screenX - this.activeWidget.mousePoint.x);
           this.activeWidget.mousePoint.y = e.screenY;
           this.activeWidget.mousePoint.x = e.screenX;
         }
@@ -51,13 +71,21 @@ export class NgGrid {
   @HostListener('mouseup', ['$event'])
   onMouseUp(e){
     if(this.activeWidget){
+      if(this.activeWidget.isDrag){
+        this.activeWidget.setPosition(this.ngWidgetShadow.position);
+      }else if(this.activeWidget.isResize){
+        this.activeWidget.setSize(this.ngWidgetShadow.size);
+      }
+      this.ngWidgetShadow.deactivate();
       this.activeWidget.resetMouse();
       this.activeWidget = null;
     }
   }
 
   onActivateWidget(widget:NgWidget){
-    this.ngWidgetShadow.setShadowStyle(widget.widgetStyle);
+    this.ngWidgetShadow.activate();
+    this.ngWidgetShadow.setPosition(widget.position);
+    this.ngWidgetShadow.setSize(widget.size);
     this.activeWidget = widget;
   }
 
@@ -70,20 +98,54 @@ export class NgGrid {
       return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
 
-    var newWidget = {
-      id: guid()
+    let newWidget = {
+      id: guid(),
+      position:{
+        'col':1,
+        'row':1
+      }
     };
     this.widgets.push(newWidget);
 
     return newWidget;
   }
 
-  ngAfterViewInit(){
-
-  }
-
   empty(){
     this.widgets = [];
+  }
+
+  private _getPosition(){
+    let col = Math.round(this.activeWidget.style.left / (this.gridConfig.colWidth + this.gridConfig.marginLeft + this.gridConfig.marginRight))+ 1;
+		let row = Math.round(this.activeWidget.style.top / (this.gridConfig.rowHeight + this.gridConfig.marginTop + this.gridConfig.marginBottom)) + 1;
+
+    return {'col':col,'row':row};
+  }
+
+  private _getSize(){
+    let x =  Math.round(this.activeWidget.style.width / (this.gridConfig.colWidth + this.gridConfig.marginLeft + this.gridConfig.marginRight));
+    let y =  Math.round(this.activeWidget.style.height / (this.gridConfig.rowHeight + this.gridConfig.marginLeft + this.gridConfig.marginRight));
+
+    return {'x':x,'y':y};
+  }
+
+  private _getMousePosition(e) {
+		const refPos: any = this.grid.nativeElement.getBoundingClientRect();
+
+		let left: number = e.clientX - refPos.left;
+		let top: number = e.clientY - refPos.top;
+
+		return {
+			left: left,
+			top: top
+		};
+	}
+
+  private _findWidgetById(id){
+    for(let i = 0;i < this.ngWidgets.length;i++){
+      if(this.ngWidgets[i].id == id){
+        return this.ngWidgets[i];
+      }
+    }
   }
 
 }

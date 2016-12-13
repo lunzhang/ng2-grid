@@ -1,21 +1,19 @@
-import { Component,HostListener,HostBinding,Output,Input,ViewChild,EventEmitter,ComponentFactoryResolver,ngAfterViewInit,ViewContainerRef} from '@angular/core';
+import { Component,HostListener,HostBinding,Output,Input,ngOnInit,ViewChild,EventEmitter,ComponentFactoryResolver,ngAfterViewInit,ViewContainerRef} from '@angular/core';
+import { GridItem } from '../griditem/griditem';
+
 @Component({
   selector: 'widget',
-  template: '<div [ngStyle]="widgetStyle">'+
+  template: '<div [ngStyle]="style">'+
   '<div [ngStyle]="headerStyle" #header class="widget-header"> </div>'+
   '<div [ngStyle]="contentStyle"><span  #target></span> </div>'+
   '<div [ngStyle]="resizeStyle" #resizer class="widget-resize"></div> </div>'
 })
-export class NgWidget {
+export class NgWidget extends GridItem {
 
-  public widgetStyle={
-      'width': 300,
-      'height': 300,
+  public style:any={
       'background-color':'white',
       'position':'absolute',
       'overflow':'hidden',
-      'top': 30,
-      'left': 500,
       'border':'1px solid black',
       'cursor':'auto'
   }
@@ -47,12 +45,21 @@ export class NgWidget {
 
   @Output() onActivateWidget = new EventEmitter<NgWidget>();
   @Input() content;
+  @Input() position;
+  @Input() gridConfig;
 
   @ViewChild('header') header;
   @ViewChild('resizer') resizer;
   @ViewChild('target', {read: ViewContainerRef}) target: ViewContainerRef;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver){}
+  constructor(private componentFactoryResolver: ComponentFactoryResolver){
+    super();
+  }
+
+  ngOnInit(){
+      this.calcPosition();
+      this.calcSize();
+  }
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(e){
@@ -82,6 +89,5 @@ export class NgWidget {
     let factory = this.componentFactoryResolver.resolveComponentFactory(this.content);
     this.target.createComponent(factory)
   }
-
 
 }
