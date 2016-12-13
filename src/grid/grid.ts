@@ -21,12 +21,16 @@ export class NgGrid {
     'position':'relative'
   };
   public gridConfig={
-    colWidth:250,
-    rowHeight:180,
-    marginLeft:10,
-    marginTop:10,
-    marginRight:10,
-    marginBottom:10
+    'colWidth':250,
+    'rowHeight':180,
+    'marginLeft':10,
+    'marginTop':10,
+    'marginRight':10,
+    'marginBottom':10,
+    'minWidth':1,
+    'minHeight':1,
+    'maxWidth':-1,
+    'maxHeight':-1
   };
   public activeWidget:NgWidget;
   public widgets=[];
@@ -55,15 +59,34 @@ export class NgGrid {
             this.activeWidget.mousePoint.x = e.screenX;
           }
         } else if(this.activeWidget.isResize){
+          let dx = e.screenX - this.activeWidget.mousePoint.x;
+          let dy = e.screenY - this.activeWidget.mousePoint.y;
           let size = this._getSize();
 
           if(this.ngWidgetShadow.size.x != size.x || this.ngWidgetShadow.size.y != size.y){
             this.ngWidgetShadow.setSize(size);
           }
-          this.activeWidget.style.height =  this.activeWidget.style.height + (e.screenY - this.activeWidget.mousePoint.y);
-          this.activeWidget.style.width = this.activeWidget.style.width + (e.screenX - this.activeWidget.mousePoint.x);
-          this.activeWidget.mousePoint.y = e.screenY;
-          this.activeWidget.mousePoint.x = e.screenX;
+          if(this.activeWidget.style.height + dy >= this.gridConfig.minHeight * this.gridConfig.rowHeight){
+            if(this.gridConfig.maxHeight == -1 || this.activeWidget.style.height + dy <= this.gridConfig.maxHeight * this.gridConfig.rowHeight + this.gridConfig.marginTop){
+              this.activeWidget.style.height += dy;
+              this.activeWidget.mousePoint.y = e.screenY;
+            }else{
+              this.activeWidget.style.height = this.gridConfig.maxHeight * this.gridConfig.rowHeight + this.gridConfig.marginTop;
+            }
+          } else{
+            this.activeWidget.style.height = this.gridConfig.minHeight * this.gridConfig.rowHeight;
+          }
+          if(this.activeWidget.style.width + dx  >= this.gridConfig.minWidth * this.gridConfig.colWidth){
+            if(this.gridConfig.maxWidth == -1 || this.activeWidget.style.width + dx <= this.gridConfig.maxWidth * this.gridConfig.colWidth + this.gridConfig.marginLeft){
+               this.activeWidget.style.width += dx;
+               this.activeWidget.mousePoint.x = e.screenX;
+             }else{
+               this.activeWidget.style.width = this.gridConfig.maxWidth * this.gridConfig.colWidth + this.gridConfig.marginLeft;
+             }
+          }else{
+            this.activeWidget.style.width = this.gridConfig.minWidth * this.gridConfig.colWidth;
+          }
+
         }
       }
   }
