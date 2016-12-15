@@ -19,8 +19,8 @@ export class GridItem implements ngOnInit{
   }
 
   calcPosition(){
-    const x: number = (this.gridConfig.colWidth + this.gridConfig.marginLeft ) * (this.position.col - 1) + this.gridConfig.marginLeft;
-    const y: number = (this.gridConfig.rowHeight + this.gridConfig.marginTop ) * (this.position.row - 1) + this.gridConfig.marginTop;
+    const x: number = (this.gridConfig.colWidth + this.gridConfig.marginLeft+2) * (this.position.col - 1) + this.gridConfig.marginLeft;
+    const y: number = (this.gridConfig.rowHeight + this.gridConfig.marginTop+2) * (this.position.row - 1) + this.gridConfig.marginTop;
     this.style.left = x;
     this.style.top = y;
   }

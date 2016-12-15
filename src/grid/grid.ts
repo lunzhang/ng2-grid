@@ -14,13 +14,11 @@ export class NgGrid {
   @ViewChildren(NgWidget) ngWidgets : QueryList<NgWidget>;
   @ViewChild(NgWidgetShadow) ngWidgetShadow;
 
-  public gridStyle= {
-    'width':'100%',
-    'height':'100%',
+  public gridStyle:any= {
     'background-color':'lightgrey',
     'position':'relative'
   };
-  public gridConfig={
+  public gridConfig:any={
     'colWidth':250,
     'rowHeight':180,
     'marginLeft':10,
@@ -50,6 +48,7 @@ export class NgGrid {
           if(this.ngWidgetShadow.position.row != gridPos.row || this.ngWidgetShadow.position.col != gridPos.col){
               this._checkCollision(gridPos,this.activeWidget.size,this.activeWidget.id);
               this.ngWidgetShadow.setPosition(gridPos);
+              this._calcGridSize();
           }
           if(this.activeWidget.style.top > 0 || dy > 0){
             this.activeWidget.style.top = this.activeWidget.style.top + dy > 0 ? this.activeWidget.style.top + dy : 0;
@@ -67,6 +66,7 @@ export class NgGrid {
           if(this.ngWidgetShadow.size.x != size.x || this.ngWidgetShadow.size.y != size.y){
             this._checkCollision(this.activeWidget.position,size,this.activeWidget.id)
             this.ngWidgetShadow.setSize(size);
+            this._calcGridSize();
           }
           if(this.activeWidget.style.height + dy >= this.gridConfig.minHeight * this.gridConfig.rowHeight){
             if(this.gridConfig.maxHeight == -1 || this.activeWidget.style.height + dy <= this.gridConfig.maxHeight * this.gridConfig.rowHeight + this.gridConfig.marginTop){
@@ -98,8 +98,12 @@ export class NgGrid {
     if(this.activeWidget){
       if(this.activeWidget.isDrag){
         this.activeWidget.setPosition(this.ngWidgetShadow.position);
+        this._findWidgetById(this.activeWidget.id).position = this.ngWidgetShadow.position;
+        this._calcGridSize();
       }else if(this.activeWidget.isResize){
         this.activeWidget.setSize(this.ngWidgetShadow.size);
+        this._findWidgetById(this.activeWidget.id).size = this.ngWidgetShadow.size;
+        this._calcGridSize();
       }
       this.ngWidgetShadow.deactivate();
       this.activeWidget.reset();
@@ -130,10 +134,14 @@ export class NgGrid {
       position:{
         'col': emptyCol,
         'row': 1
+      },
+      size:{
+        'x':1,
+        'y':1
       }
     };
     this.widgets.push(newWidget);
-
+    this._calcGridSize();
     return newWidget;
   }
 
@@ -167,10 +175,18 @@ export class NgGrid {
 		};
 	}
 
-  private _findWidgetById(id){
+  private _findNgWidgetById(id){
     for(let i = 0;i < this.ngWidgets.length;i++){
       if(this.ngWidgets[i].id == id){
         return this.ngWidgets[i];
+      }
+    }
+  }
+
+  private _findWidgetById(id){
+    for(let i = 0;i < this.widgets.length;i++){
+      if(this.widgets[i].id == id){
+        return this.widgets[i];
       }
     }
   }
@@ -208,6 +224,25 @@ export class NgGrid {
       widget.calcPosition();
       this._checkCollision(widget.position,widget.size,widget.id);
     });
+  }
+
+  private _calcGridSize(){
+    var maxCol = 5;
+    var maxRow = 5;
+    this.widgets.forEach((widget)=>{
+          if( (widget.position.col + widget.size.x - 1) > maxCol )
+            maxCol = widget.position.col + widget.size.x - 1;
+          if((widget.position.row + widget.size.y -1) > maxRow)
+            maxRow = widget.position.row + widget.size.y -1;
+    });
+    if((this.ngWidgetShadow.position.col + this.ngWidgetShadow.size.x - 1) > maxCol )
+      maxCol = this.ngWidgetShadow.position.col + this.ngWidgetShadow.size.x - 1;
+    if((this.ngWidgetShadow.position.row + this.ngWidgetShadow.size.y -1) > maxRow)
+      maxRow = this.ngWidgetShadow.position.row + this.ngWidgetShadow.size.y -1;
+    this.gridStyle.width = (maxCol * (this.gridConfig.colWidth+2)) + (maxCol * this.gridConfig.marginLeft)
+    + this.gridConfig.marginRight;
+    this.gridStyle.height = (maxRow * (this.gridConfig.rowHeight+2)) + (maxRow * this.gridConfig.marginTop)
+    + this.gridConfig.marginBottom;
   }
 
 }

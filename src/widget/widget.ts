@@ -5,7 +5,7 @@ import { GridItem } from '../griditem/griditem';
   selector: 'widget',
   template: '<div [ngStyle]="style" [id]="id">'+
   '<div [ngStyle]="headerStyle" #header class="widget-header"> </div>'+
-  '<div [ngStyle]="contentStyle"><span  #target></span> </div>'+
+  '<div [ngStyle]="contentStyle"><div #target></div> </div>'+
   '<div [ngStyle]="resizeStyle" #resizer class="widget-resize"></div> </div>'
 })
 export class NgWidget extends GridItem {
@@ -34,9 +34,11 @@ export class NgWidget extends GridItem {
     'cursor':'move'
   }
   public contentStyle={
-    'top': this.headerStyle.height,
+    'top': this.headerStyle.height+2,
     'position':'relative',
-    'height': 'calc(100% - ' + this.headerStyle.height +'px)'
+    'height': 'calc(100% - ' + (this.headerStyle.height + 10) +'px)',
+    'overflow':'auto',
+    'padding':'5px'
   }
 
   public isDrag:boolean=false;
@@ -88,9 +90,12 @@ export class NgWidget extends GridItem {
     this.isResize = false;
   }
 
-  ngOnChanges(){
-    let factory = this.componentFactoryResolver.resolveComponentFactory(this.content);
-    this.target.createComponent(factory)
+  ngOnChanges(changes){
+    if(changes.content){
+      this.target.clear();
+      let factory = this.componentFactoryResolver.resolveComponentFactory(this.content);
+      this.target.createComponent(factory);
+    }
   }
 
 }
