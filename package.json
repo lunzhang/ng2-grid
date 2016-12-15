@@ -1,6 +1,6 @@
 {
   "name": "ng2-grid-component",
-  "version": "0.1.21",
+  "version": "0.2.1",
   "description": "angular 2 grid layout",
   "main": "src/main.js",
   "scripts": {
@@ -25,7 +25,9 @@
     "src/main*",
     "src/grid/*",
     "src/module/*",
-    "src/widget/*"
+    "src/widget/*",
+    "src/griditem/*",
+    "src/widgetshadow/*"
   ],
   "devDependencies": {
     "@angular/common": "~2.2.2",
@@ -47,7 +49,7 @@
     "lite-server": "^2.2.2",
     "typescript": "^2.0.3",
 
-    "ng2-grid-component":"~0.1.21"
+    "ng2-grid-component":"^0.2.1"
   },
   "typings":"src/main.d.ts"
 }
