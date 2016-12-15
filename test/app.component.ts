@@ -11,8 +11,11 @@ export class AppComponent {
     @ViewChild(NgGrid) grid : NgGrid;
 
     ngAfterViewInit(){
-      var widget = this.grid.addWidget();
-      widget.content = ContentComponent;
+      for(let i = 0;i < 5; i++){
+        var widget = this.grid.addWidget();
+        widget.content = ContentComponent;
+      }
+      (<any>window).grid = this.grid;
     }
 
 }

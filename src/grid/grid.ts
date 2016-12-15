@@ -6,7 +6,7 @@ import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
   selector: 'grid',
     template: '<div #grid [ngStyle]="gridStyle"> <widget-shadow [gridConfig]="gridConfig" > </widget-shadow>'+
     '<widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" '+
-    '[content]="widget.content" [position]="widget.position" [gridConfig]="gridConfig" > </widget> </div>'
+    '[id]="widget.id" [content]="widget.content" [position]="widget.position" [gridConfig]="gridConfig" > </widget> </div>'
 })
 export class NgGrid {
 
@@ -48,7 +48,8 @@ export class NgGrid {
           let gridPos = this._getPosition();
 
           if(this.ngWidgetShadow.position.row != gridPos.row || this.ngWidgetShadow.position.col != gridPos.col){
-            this.ngWidgetShadow.setPosition(gridPos);
+              this._checkCollision(gridPos,this.activeWidget.size,this.activeWidget.id);
+              this.ngWidgetShadow.setPosition(gridPos);
           }
           if(this.activeWidget.style.top > 0 || dy > 0){
             this.activeWidget.style.top = this.activeWidget.style.top + dy > 0 ? this.activeWidget.style.top + dy : 0;
@@ -64,6 +65,7 @@ export class NgGrid {
           let size = this._getSize();
 
           if(this.ngWidgetShadow.size.x != size.x || this.ngWidgetShadow.size.y != size.y){
+            this._checkCollision(this.activeWidget.position,size,this.activeWidget.id)
             this.ngWidgetShadow.setSize(size);
           }
           if(this.activeWidget.style.height + dy >= this.gridConfig.minHeight * this.gridConfig.rowHeight){
@@ -100,7 +102,7 @@ export class NgGrid {
         this.activeWidget.setSize(this.ngWidgetShadow.size);
       }
       this.ngWidgetShadow.deactivate();
-      this.activeWidget.resetMouse();
+      this.activeWidget.reset();
       this.activeWidget = null;
     }
   }
@@ -121,11 +123,13 @@ export class NgGrid {
       return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
 
+    var emptyCol = this._findEmptyCol();
+
     let newWidget = {
       id: guid(),
       position:{
-        'col':1,
-        'row':1
+        'col': emptyCol,
+        'row': 1
       }
     };
     this.widgets.push(newWidget);
@@ -169,6 +173,41 @@ export class NgGrid {
         return this.ngWidgets[i];
       }
     }
+  }
+
+  private _findEmptyCol(){
+    var col = 0;
+    this.widgets.forEach((widget)=>{
+      if(widget.position.col > col)
+        col = widget.position.col;
+    });
+    return col+1;
+  }
+
+  private _getCollision(position,size,id){
+    var collisions=[];
+    this.ngWidgets.forEach((widget)=>{
+        if(widget.id != id && widget.id != this.activeWidget.id){
+          if(((widget.position.col >= position.col && widget.position.col < position.col + size.x)
+          || (widget.position.col + widget.size.x-1 >= position.col && widget.position.col + widget.size.x-1 < position.col + size.x)
+        || (position.col >= widget.position.col && position.col < widget.position.col + widget.size.x))
+        && ((widget.position.row >= position.row && widget.position.row < position.row + size.y)
+      || (widget.position.row + widget.size.y-1 >= position.row && widget.position.row + widget.size.y-1 < position.row + size.y)
+    || (position.row >= widget.position.row && position.row < widget.position.row + widget.size.y))){
+              collisions.push(widget);
+          }
+        }
+    });
+    return collisions;
+  }
+
+  private _checkCollision(position,size,id){
+    var collisions = this._getCollision(position,size,id);
+    collisions.forEach((widget)=>{
+      widget.position.row = position.row + size.y;
+      widget.calcPosition();
+      this._checkCollision(widget.position,widget.size,widget.id);
+    });
   }
 
 }

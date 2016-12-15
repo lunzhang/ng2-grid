@@ -3,7 +3,7 @@ import { GridItem } from '../griditem/griditem';
 
 @Component({
   selector: 'widget',
-  template: '<div [ngStyle]="style">'+
+  template: '<div [ngStyle]="style" [id]="id">'+
   '<div [ngStyle]="headerStyle" #header class="widget-header"> </div>'+
   '<div [ngStyle]="contentStyle"><span  #target></span> </div>'+
   '<div [ngStyle]="resizeStyle" #resizer class="widget-resize"></div> </div>'
@@ -47,6 +47,7 @@ export class NgWidget extends GridItem {
   @Input() content;
   @Input() position;
   @Input() gridConfig;
+  @Input() id;
 
   @ViewChild('header') header;
   @ViewChild('resizer') resizer;
@@ -74,13 +75,15 @@ export class NgWidget extends GridItem {
         this.mousePoint.y = e.screenY;
         this.onActivateWidget.emit(this);
     }
+    this.style['z-index'] = '1';
   }
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(e){
   }
 
-  resetMouse(){
+  reset(){
+    this.style['z-index'] = 'auto';
     this.isDrag = false;
     this.isResize = false;
   }
