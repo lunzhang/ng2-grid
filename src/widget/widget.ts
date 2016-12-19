@@ -3,43 +3,35 @@ import { GridItem } from '../griditem/griditem';
 
 @Component({
   selector: 'widget',
-  template: '<div [ngStyle]="style" [id]="id">'+
+  template: '<div [ngStyle]="style" [id]="id" class="widget">'+
   '<div [ngStyle]="headerStyle" #header class="widget-header"> </div>'+
-  '<div [ngStyle]="contentStyle"><div #target></div> </div>'+
-  '<div [ngStyle]="resizeStyle" #resizer class="widget-resize"></div> </div>'
+  '<div [ngStyle]="contentStyle" class="widget-content"><div #target></div> </div>'+
+  '<div [ngStyle]="resizeStyle" #resizer class="widget-resize"></div> </div>',
+  styles:['.widget{background-color:#121212;border:1px solid #ad2828;}'+
+  '.widget-resize{width:20;height:20;bottom:0;right:0;background:repeating-linear-gradient(45deg,#171717,#171717 5px,#ad2828 5px,#ad2828 6px);}' +
+'.widget-header{height:50;border-bottom:1px solid #ad2828;}'+
+'.widget-content{top:52;height:calc(100% - 60px);padding:5px;color:white;}']
 })
 export class NgWidget extends GridItem {
 
   public style:any={
-      'background-color':'white',
       'position':'absolute',
       'overflow':'hidden',
-      'border':'1px solid black',
       'cursor':'auto'
-  }
+  };
   public resizeStyle={
-    'width':'24',
-    'height':'24',
     'position':'absolute',
-    'bottom':'0',
-    'right':'0',
-    'cursor':'nwse-resize',
-    'background':'repeating-linear-gradient(45deg,#a2a2a7,#bcbdc3 5px,#a2a4ab 5px,#797a80 6px)'
-  }
+    'cursor':'nwse-resize'
+  };
   public headerStyle={
     'width': '100%',
-    'height': 50,
     'position':'absolute',
-    'border-bottom':'1px solid black',
     'cursor':'move'
-  }
+  };
   public contentStyle={
-    'top': this.headerStyle.height+2,
     'position':'relative',
-    'height': 'calc(100% - ' + (this.headerStyle.height + 10) +'px)',
-    'overflow':'auto',
-    'padding':'5px'
-  }
+    'overflow':'auto'
+  };
 
   public isDrag:boolean=false;
   public isResize:boolean=false;

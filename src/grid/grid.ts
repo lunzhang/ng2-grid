@@ -4,9 +4,10 @@ import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
 
 @Component({
   selector: 'grid',
-    template: '<div #grid [ngStyle]="gridStyle"> <widget-shadow [gridConfig]="gridConfig" > </widget-shadow>'+
+    template: '<div #grid [ngStyle]="gridStyle" class="grid"> <widget-shadow [gridConfig]="gridConfig" > </widget-shadow>'+
     '<widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" '+
-    '[id]="widget.id" [content]="widget.content" [position]="widget.position" [gridConfig]="gridConfig" > </widget> </div>'
+    '[id]="widget.id" [content]="widget.content" [position]="widget.position" [gridConfig]="gridConfig" > </widget> </div>',
+    styles:['.grid{background-color:#0c0d0d;}']
 })
 export class NgGrid {
 
@@ -15,7 +16,6 @@ export class NgGrid {
   @ViewChild(NgWidgetShadow) ngWidgetShadow;
 
   public gridStyle:any= {
-    'background-color':'lightgrey',
     'position':'relative'
   };
   public gridConfig:any={
