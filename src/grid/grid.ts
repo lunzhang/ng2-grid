@@ -1,4 +1,4 @@
-import { Component,HostListener,ViewChild,ViewChildren,ngAfterViewInit} from '@angular/core';
+import { Component,HostListener,ViewChild,ViewChildren,Input,ngOnInit} from '@angular/core';
 import { NgWidget } from '../widget/widget';
 import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
 
@@ -9,11 +9,13 @@ import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
     '[id]="widget.id" [content]="widget.content" [position]="widget.position" [gridConfig]="gridConfig" > </widget> </div>',
     styles:['.grid{background-color:#0c0d0d;}']
 })
-export class NgGrid {
+export class NgGrid implements ngOnInit {
 
   @ViewChild('grid') grid;
   @ViewChildren(NgWidget) ngWidgets : QueryList<NgWidget>;
   @ViewChild(NgWidgetShadow) ngWidgetShadow;
+
+  @Input() customConfig:any;
 
   public gridStyle:any= {
     'position':'relative'
@@ -32,6 +34,12 @@ export class NgGrid {
   };
   public activeWidget:NgWidget;
   public widgets=[];
+
+  ngOnInit(){
+    for(var config in this.customConfig){
+      this.gridConfig[config] = this.customConfig[config];
+    }
+  }
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(e){
