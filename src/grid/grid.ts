@@ -1,4 +1,4 @@
-import { Component,HostListener,ViewChild,ViewChildren,Input,ngOnInit} from '@angular/core';
+import { Component,HostListener,ViewChild,ViewChildren,Input,Output,EventEmitter,ngOnInit} from '@angular/core';
 import { NgWidget } from '../widget/widget';
 import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
 
@@ -10,6 +10,13 @@ import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
     styles:['.grid{background-color:#0c0d0d;}']
 })
 export class NgGrid implements ngOnInit {
+
+  @Output() public onDragStart: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+	@Output() public onDrag: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+	@Output() public onDragStop: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+	@Output() public onResizeStart: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+	@Output() public onResize: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+	@Output() public onResizeStop: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
 
   @ViewChild('grid') grid;
   @ViewChildren(NgWidget) ngWidgets : QueryList<NgWidget>;
@@ -50,6 +57,7 @@ export class NgGrid implements ngOnInit {
       if(this.activeWidget){
         this._checkSelection();
         if(this.activeWidget.isDrag){
+          this.onDrag.emit(this.activeWidget);
           let dx = e.clientX - this.activeWidget.mousePoint.x;
           let dy = e.clientY - this.activeWidget.mousePoint.y;
           let gridPos = this._getPosition();
@@ -68,6 +76,7 @@ export class NgGrid implements ngOnInit {
             this.activeWidget.mousePoint.x = e.clientX;
           }
         } else if(this.activeWidget.isResize){
+          this.onResize.emit(this.activeWidget);
           let dx = e.clientX - this.activeWidget.mousePoint.x;
           let dy = e.clientY - this.activeWidget.mousePoint.y;
           let size = this._getSize();
@@ -106,10 +115,12 @@ export class NgGrid implements ngOnInit {
   onMouseUp(e){
     if(this.activeWidget){
       if(this.activeWidget.isDrag){
+        this.onDragStop.emit(this.activeWidget);
         this.activeWidget.setPosition(this.ngWidgetShadow.position);
         this._findWidgetById(this.activeWidget.id).position = this.ngWidgetShadow.position;
         this._calcGridSize();
       }else if(this.activeWidget.isResize){
+        this.onResizeStop.emit(this.activeWidget);
         this.activeWidget.setSize(this.ngWidgetShadow.size);
         this._findWidgetById(this.activeWidget.id).size = this.ngWidgetShadow.size;
         this._calcGridSize();
@@ -121,6 +132,11 @@ export class NgGrid implements ngOnInit {
   }
 
   onActivateWidget(widget:NgWidget){
+    if(widget.isDrag){
+      this.onDragStart.emit(widget);
+    }else if(widget.isResize){
+      this.onResizeStart.emit(widget);
+    }
     this.ngWidgetShadow.activate();
     this.ngWidgetShadow.setPosition(widget.position);
     this.ngWidgetShadow.setSize(widget.size);
