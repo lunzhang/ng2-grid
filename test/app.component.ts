@@ -11,8 +11,8 @@ export class AppComponent {
     @ViewChild(NgGrid) grid : NgGrid;
 
     public customConfig = {
-      'maxWidth':5,
-      'maxHeight':5
+      'maxWidth':2,
+      'maxHeight':2
     };
     ngAfterViewInit(){
       for(let i = 0;i < 5; i++){

@@ -48,6 +48,7 @@ export class NgGrid implements ngOnInit {
   @HostListener('mousemove', ['$event'])
   onMouseMove(e){
       if(this.activeWidget){
+        this._checkSelection();
         if(this.activeWidget.isDrag){
           let dx = e.screenX - this.activeWidget.mousePoint.x;
           let dy = e.screenY - this.activeWidget.mousePoint.y;
@@ -251,6 +252,18 @@ export class NgGrid implements ngOnInit {
     + this.gridConfig.marginRight;
     this.gridStyle.height = (maxRow * (this.gridConfig.rowHeight+2)) + (maxRow * this.gridConfig.marginTop)
     + this.gridConfig.marginBottom;
+  }
+
+  private _checkSelection(){
+    if (window.getSelection) {
+				if (window.getSelection().empty) {
+					window.getSelection().empty();
+				} else if (window.getSelection().removeAllRanges) {
+					window.getSelection().removeAllRanges();
+				}
+			} else if ((<any>document).selection) {
+				(<any>document).selection.empty();
+			}
   }
 
 }
