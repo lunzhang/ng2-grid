@@ -29,7 +29,7 @@ export class NgGrid implements ngOnInit {
     '-webkit-touch-callout': 'none',
     '-webkit-user-select': 'none',
      '-khtml-user-select': 'none',
-       '-moz-user-select': 'none', 
+       '-moz-user-select': 'none',
         '-ms-user-select': 'none',
             'user-select': 'none'
   };
@@ -47,6 +47,10 @@ export class NgGrid implements ngOnInit {
   };
   public activeWidget:NgWidget;
   public widgets=[];
+  public windowScroll:any={
+    x:0,
+    y:0
+  };
 
   ngOnInit(){
     for(var config in this.customConfig){
@@ -134,6 +138,31 @@ export class NgGrid implements ngOnInit {
       this.activeWidget.reset();
       this.activeWidget = null;
     }
+  }
+
+  @HostListener('window:scroll',['$event'])
+  onScroll(e){
+    if(this.activeWidget){
+      if(this.activeWidget.isDrag){
+        var dx = window.scrollX - this.windowScroll.x;
+        var dy = window.scrollY - this.windowScroll.y;
+        let gridPos = this._getPosition();
+
+        if(this.ngWidgetShadow.position.row != gridPos.row || this.ngWidgetShadow.position.col != gridPos.col){
+            this._checkCollision(gridPos,this.activeWidget.size,this.activeWidget.id);
+            this.ngWidgetShadow.setPosition(gridPos);
+            this._calcGridSize();
+        }
+        if(this.activeWidget.style.top > 0 || dy > 0){
+          this.activeWidget.style.top = this.activeWidget.style.top + dy > 0 ? this.activeWidget.style.top + dy : 0;
+        }
+        if(this.activeWidget.style.left > 0 || dx > 0){
+          this.activeWidget.style.left = this.activeWidget.style.left + dx > 0 ? this.activeWidget.style.left + dx : 0;
+        }
+      }
+    }
+    this.windowScroll.x = window.scrollX;
+    this.windowScroll.y = window.scrollY;
   }
 
   onActivateWidget(widget:NgWidget){
