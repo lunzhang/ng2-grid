@@ -50,8 +50,8 @@ export class NgGrid implements ngOnInit {
       if(this.activeWidget){
         this._checkSelection();
         if(this.activeWidget.isDrag){
-          let dx = e.screenX - this.activeWidget.mousePoint.x;
-          let dy = e.screenY - this.activeWidget.mousePoint.y;
+          let dx = e.clientX - this.activeWidget.mousePoint.x;
+          let dy = e.clientY - this.activeWidget.mousePoint.y;
           let gridPos = this._getPosition();
 
           if(this.ngWidgetShadow.position.row != gridPos.row || this.ngWidgetShadow.position.col != gridPos.col){
@@ -61,15 +61,15 @@ export class NgGrid implements ngOnInit {
           }
           if(this.activeWidget.style.top > 0 || dy > 0){
             this.activeWidget.style.top = this.activeWidget.style.top + dy > 0 ? this.activeWidget.style.top + dy : 0;
-            this.activeWidget.mousePoint.y = e.screenY;
+            this.activeWidget.mousePoint.y = e.clientY;
           }
           if(this.activeWidget.style.left > 0 || dx > 0){
             this.activeWidget.style.left = this.activeWidget.style.left + dx > 0 ? this.activeWidget.style.left + dx : 0;
-            this.activeWidget.mousePoint.x = e.screenX;
+            this.activeWidget.mousePoint.x = e.clientX;
           }
         } else if(this.activeWidget.isResize){
-          let dx = e.screenX - this.activeWidget.mousePoint.x;
-          let dy = e.screenY - this.activeWidget.mousePoint.y;
+          let dx = e.clientX - this.activeWidget.mousePoint.x;
+          let dy = e.clientY - this.activeWidget.mousePoint.y;
           let size = this._getSize();
 
           if(this.ngWidgetShadow.size.x != size.x || this.ngWidgetShadow.size.y != size.y){
@@ -80,7 +80,7 @@ export class NgGrid implements ngOnInit {
           if(this.activeWidget.style.height + dy >= this.gridConfig.minHeight * this.gridConfig.rowHeight){
             if(this.gridConfig.maxHeight == -1 || this.activeWidget.style.height + dy <= this.gridConfig.maxHeight * this.gridConfig.rowHeight + this.gridConfig.marginTop){
               this.activeWidget.style.height += dy;
-              this.activeWidget.mousePoint.y = e.screenY;
+              this.activeWidget.mousePoint.y = e.clientY;
             }else{
               this.activeWidget.style.height = this.gridConfig.maxHeight * this.gridConfig.rowHeight + this.gridConfig.marginTop;
             }
@@ -90,7 +90,7 @@ export class NgGrid implements ngOnInit {
           if(this.activeWidget.style.width + dx  >= this.gridConfig.minWidth * this.gridConfig.colWidth){
             if(this.gridConfig.maxWidth == -1 || this.activeWidget.style.width + dx <= this.gridConfig.maxWidth * this.gridConfig.colWidth + this.gridConfig.marginLeft){
                this.activeWidget.style.width += dx;
-               this.activeWidget.mousePoint.x = e.screenX;
+               this.activeWidget.mousePoint.x = e.clientX;
              }else{
                this.activeWidget.style.width = this.gridConfig.maxWidth * this.gridConfig.colWidth + this.gridConfig.marginLeft;
              }

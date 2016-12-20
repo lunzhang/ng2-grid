@@ -60,13 +60,13 @@ export class NgWidget extends GridItem {
   onMouseDown(e){
     if(e.srcElement == this.header.nativeElement){
         this.isDrag = true;
-        this.mousePoint.x = e.screenX;
-        this.mousePoint.y = e.screenY;
+        this.mousePoint.x = e.clientX;
+        this.mousePoint.y = e.clientY;
         this.onActivateWidget.emit(this);
     } else if(e.srcElement == this.resizer.nativeElement){
         this.isResize = true;
-        this.mousePoint.x = e.screenX;
-        this.mousePoint.y = e.screenY;
+        this.mousePoint.x = e.clientX;
+        this.mousePoint.y = e.clientY;
         this.onActivateWidget.emit(this);
     }
     this.style['z-index'] = '1';
