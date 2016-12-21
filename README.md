@@ -1,5 +1,5 @@
 #Angular 2 Grid Component
-A grid component for angular 2 application.
+A grid component for angular 2 application. [demo](https://lunzhang.github.io/ng2#/grid)
 
 ### Installation
 ----------
