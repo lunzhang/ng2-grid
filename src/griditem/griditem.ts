@@ -1,6 +1,6 @@
-import { Input,ngOnInit } from '@angular/core';
+import { Input,OnInit } from '@angular/core';
 
-export class GridItem implements ngOnInit{
+export class GridItem{
 
   public style:any={};
   public position:any={};

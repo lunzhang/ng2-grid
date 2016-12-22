@@ -1,4 +1,4 @@
-import { Component,HostListener,HostBinding,Output,Input,ngOnInit,ViewChild,EventEmitter,ComponentFactoryResolver,ngAfterViewInit,ViewContainerRef} from '@angular/core';
+import { Component,HostListener,HostBinding,Output,Input,OnInit,ViewChild,EventEmitter,ComponentFactoryResolver,AfterViewInit,ViewContainerRef} from '@angular/core';
 import { GridItem } from '../griditem/griditem';
 
 @Component({

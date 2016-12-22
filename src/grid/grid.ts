@@ -1,4 +1,4 @@
-import { Component,HostListener,ViewChild,ViewChildren,Input,Output,EventEmitter,ngOnInit} from '@angular/core';
+import { Component,HostListener,ViewChild,ViewChildren,Input,Output,EventEmitter,OnInit,QueryList} from '@angular/core';
 import { NgWidget } from '../widget/widget';
 import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
 
@@ -9,7 +9,7 @@ import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
     '[id]="widget.id" [content]="widget.content" [position]="widget.position" [gridConfig]="gridConfig" > </widget> </div>',
     styles:['.grid{background-color:#0c0d0d;}']
 })
-export class NgGrid implements ngOnInit {
+export class NgGrid implements OnInit {
 
   @Output() public onDragStart: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
 	@Output() public onDrag: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
