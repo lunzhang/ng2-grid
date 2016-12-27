@@ -5,8 +5,8 @@ import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
 @Component({
   selector: 'grid',
     template: '<div #grid [ngStyle]="gridStyle" class="grid"> <widget-shadow [gridConfig]="gridConfig" > </widget-shadow>'+
-    '<widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" '+
-    '[id]="widget.id" [content]="widget.content" [position]="widget.position" [gridConfig]="gridConfig" > </widget> </div>',
+    '<widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" (onClose)="onClose($event)" '+
+    '[id]="widget.id" [content]="widget.content" [position]="widget.position" [widgetTitle]="widget.widgetTitle" [gridConfig]="gridConfig" > </widget> </div>',
     styles:['.grid{background-color:#0c0d0d;}']
 })
 export class NgGrid implements OnInit {
@@ -175,6 +175,14 @@ export class NgGrid implements OnInit {
     this.ngWidgetShadow.setPosition(widget.position);
     this.ngWidgetShadow.setSize(widget.size);
     this.activeWidget = widget;
+  }
+
+  onClose(widget:NgWidget){
+    for(var i = 0; i < this.widgets.length;i++){
+      if(this.widgets[i].id == widget.id){
+        this.widgets.splice(i,1);
+      }
+    }
   }
 
   addWidget():any{

@@ -1,4 +1,4 @@
-import { Component, ViewChild,ngAfterViewInit} from '@angular/core';
+import { Component, ViewChild,AfterViewInit} from '@angular/core';
 import { NgGrid } from '../src/main';
 import { ContentComponent } from './content/content.component';
 
@@ -6,7 +6,7 @@ import { ContentComponent } from './content/content.component';
     selector: 'my-app',
     template: '<grid [customConfig]="customConfig"></grid>'
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit{
 
     @ViewChild(NgGrid) grid : NgGrid;
 
@@ -18,6 +18,7 @@ export class AppComponent {
       for(let i = 0;i < 5; i++){
         var widget = this.grid.addWidget();
         widget.content = ContentComponent;
+        widget.widgetTitle = "Ng2-Grid";
       }
       (<any>window).grid = this.grid;
     }
