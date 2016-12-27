@@ -1,0 +1,45 @@
+:host-context(.dark){
+  .widget{
+    background-color:#121212;
+    border:1px solid #ad2828;
+  }
+  .widget-resize{
+    width:20;
+    height:20;
+    bottom:0;
+    right:0;
+    background:repeating-linear-gradient(45deg,#171717,#171717 5px,#ad2828 5px,#ad2828 6px);
+  }
+  .widget-header{
+    height:50;
+    border-bottom:1px solid #ad2828;
+  }
+  .widget-content{
+    top:50;
+    height:calc(100% - 70px);
+    margin:10px 0px 10px 10px;
+    color:white;
+  }
+  .widget-header-title{
+    padding:15px 10px;
+    display:inline-block;
+    width:calc(100% - 64px);
+  }
+  .widget-header-option{
+    display:inline-block;
+    border-left:1px solid #ad2828;
+    button{
+      background-color:#121212;
+      border-color:#121212;
+      padding:15px 15px;
+      color:white;
+      cursor:hand;
+      &:focus{
+        outline:none;
+      }
+      &:hover{
+        background-color:black;
+      }
+    }
+  }
+}

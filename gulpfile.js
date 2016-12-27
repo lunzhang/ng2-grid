@@ -1,11 +1,15 @@
 var gulp = require('gulp');
 var path = require('path');
 var del = require('del');
-var ext_replace = require('gulp-ext-replace');
 var sourcemaps = require('gulp-sourcemaps');
 var typescript = require('gulp-typescript');
 var merge = require('merge2');
+var sass = require('gulp-sass');
+var minifyCss = require('gulp-minify-css');
 
+var paths = {
+  sass: ['./src/**/*.scss']
+};
 var tsProject = typescript.createProject('tsconfig.build.json');
 
 gulp.task('clean', function() {
@@ -18,13 +22,6 @@ gulp.task('copy', function () {
         }).pipe(gulp.dest('dist'));
 });
 
-gulp.task('rename', function () {
-	return gulp.src(['dist/*.ts','dist/**/*.ts'])
-       .pipe(ext_replace('.d.ts'))
-			 .pipe(gulp.dest('dist'));
-});
-
-
 gulp.task('ts',function(){
 	var tsResult = tsProject.src()
 		.pipe(sourcemaps.init())
@@ -36,6 +33,19 @@ gulp.task('ts',function(){
 	]);
 });
 
+gulp.task('sass',function(){
+	gulp.src(paths.sass, {base: "./"}).pipe(sass())
+	.pipe(minifyCss())
+	.pipe(gulp.dest("."));
+});
+
 gulp.task('build', function() {
+  gulp.src(['src/**/*.css'], {
+            base: 'src/'
+        }).pipe(gulp.dest('dist'));
 	return gulp.start('ts');
+});
+
+gulp.task('watch',function(){
+	gulp.watch(paths.sass,['sass']);
 });

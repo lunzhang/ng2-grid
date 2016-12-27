@@ -3,11 +3,12 @@ import { NgWidget } from '../widget/widget';
 import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
 
 @Component({
+  moduleId: module.id,
   selector: 'grid',
-    template: '<div #grid [ngStyle]="gridStyle" class="grid"> <widget-shadow [gridConfig]="gridConfig" > </widget-shadow>'+
+    template: '<div #grid [ngStyle]="gridStyle" class="grid" [ngClass]="customConfig.theme"> <widget-shadow [gridConfig]="gridConfig" > </widget-shadow>'+
     '<widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" (onClose)="onClose($event)" '+
     '[id]="widget.id" [content]="widget.content" [position]="widget.position" [widgetTitle]="widget.widgetTitle" [gridConfig]="gridConfig" > </widget> </div>',
-    styles:['.grid{background-color:#0c0d0d;}']
+    styleUrls:['./grid.css']
 })
 export class NgGrid implements OnInit {
 

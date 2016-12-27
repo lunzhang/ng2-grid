@@ -12,7 +12,8 @@ export class AppComponent implements AfterViewInit{
 
     public customConfig = {
       'maxWidth':2,
-      'maxHeight':2
+      'maxHeight':2,
+      'theme':'dark'
     };
     ngAfterViewInit(){
       for(let i = 0;i < 5; i++){
