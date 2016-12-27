@@ -9,3 +9,4 @@ test/*/*.js
 test/*/*.js.map
 npm-debug.log.*
 .npmignore
+dist
