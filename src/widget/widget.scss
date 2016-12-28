@@ -20,15 +20,16 @@
   margin:10px 0px 10px 10px;
 }
 .widget-header-title{
-  padding:16px 10px;
+  padding: 16px 10px 17px 10px;
   display:inline-block;
-  width:calc(100% - 64px);
+  width:calc(100% - 43px);
 }
 .widget-header-option{
   display:inline-block;
   button{
     border:none;
-    padding:18px 17px 15px 17px;
+    height: 49px;
+    width: 43px;
     cursor:hand;
     &:focus{
       outline:none;

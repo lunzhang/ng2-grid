@@ -58,7 +58,6 @@ export class NgGrid implements OnInit {
     for(var config in this.customConfig){
       this.gridConfig[config] = this.customConfig[config];
     }
-    console.log(this.customConfig);
   }
 
   @HostListener('mousedown', ['$event'])
