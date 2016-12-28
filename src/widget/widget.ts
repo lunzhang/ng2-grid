@@ -15,8 +15,7 @@ export class NgWidget extends GridItem {
   public style:any={
       'position':'absolute',
       'overflow':'hidden',
-      'cursor':'auto',
-      'color':'white'
+      'cursor':'auto'
   };
   public resizeStyle={
     'position':'absolute',
@@ -24,7 +23,7 @@ export class NgWidget extends GridItem {
   };
   public headerStyle={
     'width': '100%',
-    'position':'absolute',
+    'position':'relative',
     'cursor':'move'
   };
   public contentStyle={

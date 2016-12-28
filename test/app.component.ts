@@ -13,13 +13,13 @@ export class AppComponent implements AfterViewInit{
     public customConfig = {
       'maxWidth':2,
       'maxHeight':2,
-      'theme':'dark'
+      'theme':'sky'
     };
     ngAfterViewInit(){
       for(let i = 0;i < 5; i++){
         var widget = this.grid.addWidget();
         widget.content = ContentComponent;
-        widget.widgetTitle = "Ng2-Grid";
+        widget.widgetTitle = widget.id;
       }
       (<any>window).grid = this.grid;
     }

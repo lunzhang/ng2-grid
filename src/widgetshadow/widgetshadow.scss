@@ -1,5 +1,17 @@
 :host-context(.dark){
   #widget-shadow{
-    position:absolute; background-color:#e1d9d9;
+     background-color:#e1d9d9;
+  }
+}
+
+:host-context(.light){
+  #widget-shadow{
+    background-color:#90b4d0;
+  }
+}
+
+:host-context(.sky){
+  #widget-shadow{
+    background-color:#65b1de;
   }
 }

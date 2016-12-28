@@ -34,7 +34,7 @@ gulp.task('ts',function(){
 });
 
 gulp.task('sass',function(){
-	gulp.src(paths.sass, {base: "./"}).pipe(sass())
+	gulp.src(paths.sass, {base: "./"}).pipe(sass().on('error', sass.logError))
 	.pipe(minifyCss())
 	.pipe(gulp.dest("."));
 });

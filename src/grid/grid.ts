@@ -5,7 +5,7 @@ import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
 @Component({
   moduleId: module.id,
   selector: 'grid',
-    template: '<div #grid [ngStyle]="gridStyle" class="grid" [ngClass]="customConfig.theme"> <widget-shadow [gridConfig]="gridConfig" > </widget-shadow>'+
+    template: '<div #grid [ngStyle]="gridStyle" class="grid" [ngClass]="gridConfig.theme"> <widget-shadow [gridConfig]="gridConfig" > </widget-shadow>'+
     '<widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" (onClose)="onClose($event)" '+
     '[id]="widget.id" [content]="widget.content" [position]="widget.position" [widgetTitle]="widget.widgetTitle" [gridConfig]="gridConfig" > </widget> </div>',
     styleUrls:['./grid.css']
@@ -35,6 +35,7 @@ export class NgGrid implements OnInit {
             'user-select': 'none'
   };
   public gridConfig:any={
+    'theme':'light',
     'colWidth':250,
     'rowHeight':180,
     'marginLeft':10,
@@ -57,6 +58,7 @@ export class NgGrid implements OnInit {
     for(var config in this.customConfig){
       this.gridConfig[config] = this.customConfig[config];
     }
+    console.log(this.customConfig);
   }
 
   @HostListener('mousedown', ['$event'])

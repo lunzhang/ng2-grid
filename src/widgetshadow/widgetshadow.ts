@@ -9,6 +9,11 @@ import { GridItem } from '../griditem/griditem';
 })
 export class NgWidgetShadow extends GridItem {
 
+style:any={
+  position:'absolute',
+  opacity: '0.3'
+};
+
 deactivate(){
   this.style.display = 'none';
 }

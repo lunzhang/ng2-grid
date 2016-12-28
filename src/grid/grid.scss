@@ -1,5 +1,11 @@
 .grid{
-  .dark{
+  &.dark{
       background-color:#0c0d0d;
+  }
+  &.light{
+    background-color:#e9eaed;
+  }
+  &.sky{
+    background-color:#2C3E50;
   }
 }
