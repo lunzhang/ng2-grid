@@ -35,6 +35,8 @@ export class NgGrid implements OnInit {
             'user-select': 'none'
   };
   public gridConfig:any={
+    'maxCol':5,
+    'maxRow':5,
     'theme':'light',
     'colWidth':250,
     'rowHeight':180,
@@ -296,8 +298,8 @@ export class NgGrid implements OnInit {
   }
 
   private _calcGridSize(){
-    var maxCol = 5;
-    var maxRow = 5;
+    var maxRow = this.gridConfig.maxRow;
+    var maxCol = this.gridConfig.maxCol;
     this.widgets.forEach((widget)=>{
           if( (widget.position.col + widget.size.x - 1) > maxCol )
             maxCol = widget.position.col + widget.size.x - 1;
