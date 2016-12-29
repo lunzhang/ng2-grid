@@ -1,6 +1,6 @@
 {
   "name": "ng2-grid-component",
-  "version": "0.2.71",
+  "version": "0.2.74",
   "description": "angular 2 grid layout",
   "main": "dist/main.js",
   "scripts": {

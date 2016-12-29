@@ -83,7 +83,7 @@ export class NgWidget extends GridItem {
   }
 
   ngOnChanges(changes){
-    if(changes.content){
+    if(changes.content && changes.content.currentValue){
       this.target.clear();
       let factory = this.componentFactoryResolver.resolveComponentFactory(this.content);
       this.target.createComponent(factory);
