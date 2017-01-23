@@ -40,9 +40,6 @@ gulp.task('sass',function(){
 });
 
 gulp.task('build', function() {
-  gulp.src(['src/**/*.css'], {
-            base: 'src/'
-        }).pipe(gulp.dest('dist'));
 	return gulp.start('ts');
 });
 

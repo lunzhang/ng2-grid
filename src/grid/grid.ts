@@ -3,8 +3,8 @@ import { NgWidget } from '../widget/widget';
 import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
 
 @Component({
-  moduleId: module.id,
-  selector: 'grid',
+    moduleId: module.id,
+    selector: 'grid',
     template: '<div #grid [ngStyle]="gridStyle" class="grid" [ngClass]="gridConfig.theme"> <widget-shadow [gridConfig]="gridConfig" > </widget-shadow>'+
     '<widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" (onClose)="onClose($event)" '+
     '[id]="widget.id" [content]="widget.content" [position]="widget.position" [widgetTitle]="widget.widgetTitle" [gridConfig]="gridConfig" > </widget> </div>',
@@ -71,6 +71,8 @@ export class NgGrid implements OnInit {
       if(this.activeWidget){
         if(this.activeWidget.isDrag){
           this.onDrag.emit(this.activeWidget);
+          let top = parseInt(this.activeWidget.style.top);
+          let left = parseInt(this.activeWidget.style.left);
           let dx = e.clientX - this.activeWidget.mousePoint.x;
           let dy = e.clientY - this.activeWidget.mousePoint.y;
           let gridPos = this._getPosition();
@@ -80,12 +82,12 @@ export class NgGrid implements OnInit {
               this.ngWidgetShadow.setPosition(gridPos);
               this._calcGridSize();
           }
-          if(this.activeWidget.style.top > 0 || dy > 0){
-            this.activeWidget.style.top = this.activeWidget.style.top + dy > 0 ? this.activeWidget.style.top + dy : 0;
+          if(top > 0 || dy > 0){
+            this.activeWidget.style.top = top + dy > 0 ? (top+dy).toString()+'px' : 0;
             this.activeWidget.mousePoint.y = e.clientY;
           }
-          if(this.activeWidget.style.left > 0 || dx > 0){
-            this.activeWidget.style.left = this.activeWidget.style.left + dx > 0 ? this.activeWidget.style.left + dx : 0;
+          if(left > 0 || dx > 0){
+            this.activeWidget.style.left = left + dx > 0 ? (left+dx).toString()+'px' : 0;
             this.activeWidget.mousePoint.x = e.clientX;
           }
         } else if(this.activeWidget.isResize){
@@ -93,31 +95,33 @@ export class NgGrid implements OnInit {
           let dx = e.clientX - this.activeWidget.mousePoint.x;
           let dy = e.clientY - this.activeWidget.mousePoint.y;
           let size = this._getSize();
+          let height = parseInt(this.activeWidget.style.height);
+          let width = parseInt(this.activeWidget.style.width);
 
           if(this.ngWidgetShadow.size.x != size.x || this.ngWidgetShadow.size.y != size.y){
             this._checkCollision(this.activeWidget.position,size,this.activeWidget.id)
             this.ngWidgetShadow.setSize(size);
             this._calcGridSize();
           }
-          if(this.activeWidget.style.height + dy >= this.gridConfig.minHeight * this.gridConfig.rowHeight){
-            if(this.gridConfig.maxHeight == -1 || this.activeWidget.style.height + dy <= this.gridConfig.maxHeight * this.gridConfig.rowHeight + this.gridConfig.marginTop){
-              this.activeWidget.style.height += dy;
+          if(height + dy >= this.gridConfig.minHeight * this.gridConfig.rowHeight){
+            if(this.gridConfig.maxHeight == -1 || height + dy <= this.gridConfig.maxHeight * this.gridConfig.rowHeight + this.gridConfig.marginTop){
+              this.activeWidget.style.height = (height+dy).toString()+'px';
               this.activeWidget.mousePoint.y = e.clientY;
             }else{
-              this.activeWidget.style.height = this.gridConfig.maxHeight * this.gridConfig.rowHeight + this.gridConfig.marginTop;
+              this.activeWidget.style.height = (this.gridConfig.maxHeight * this.gridConfig.rowHeight + this.gridConfig.marginTop).toString()+'px';
             }
           } else{
-            this.activeWidget.style.height = this.gridConfig.minHeight * this.gridConfig.rowHeight;
+            this.activeWidget.style.height = (this.gridConfig.minHeight * this.gridConfig.rowHeight).toString()+'px';
           }
-          if(this.activeWidget.style.width + dx  >= this.gridConfig.minWidth * this.gridConfig.colWidth){
-            if(this.gridConfig.maxWidth == -1 || this.activeWidget.style.width + dx <= this.gridConfig.maxWidth * this.gridConfig.colWidth + this.gridConfig.marginLeft){
-               this.activeWidget.style.width += dx;
+          if(width + dx  >= this.gridConfig.minWidth * this.gridConfig.colWidth){
+            if(this.gridConfig.maxWidth == -1 || width + dx <= this.gridConfig.maxWidth * this.gridConfig.colWidth + this.gridConfig.marginLeft){
+               this.activeWidget.style.width = (width+dx).toString()+'px';
                this.activeWidget.mousePoint.x = e.clientX;
              }else{
-               this.activeWidget.style.width = this.gridConfig.maxWidth * this.gridConfig.colWidth + this.gridConfig.marginLeft;
+               this.activeWidget.style.width = (this.gridConfig.maxWidth * this.gridConfig.colWidth + this.gridConfig.marginLeft).toString()+'px';
              }
           }else{
-            this.activeWidget.style.width = this.gridConfig.minWidth * this.gridConfig.colWidth;
+            this.activeWidget.style.width = (this.gridConfig.minWidth * this.gridConfig.colWidth).toString()+'px';
           }
 
         }
@@ -150,6 +154,8 @@ export class NgGrid implements OnInit {
       if(this.activeWidget.isDrag){
         var dx = window.scrollX - this.windowScroll.x;
         var dy = window.scrollY - this.windowScroll.y;
+        let top = parseInt(this.activeWidget.style.top);
+        let left = parseInt(this.activeWidget.style.left);
         let gridPos = this._getPosition();
 
         if(this.ngWidgetShadow.position.row != gridPos.row || this.ngWidgetShadow.position.col != gridPos.col){
@@ -157,11 +163,11 @@ export class NgGrid implements OnInit {
             this.ngWidgetShadow.setPosition(gridPos);
             this._calcGridSize();
         }
-        if(this.activeWidget.style.top > 0 || dy > 0){
-          this.activeWidget.style.top = this.activeWidget.style.top + dy > 0 ? this.activeWidget.style.top + dy : 0;
+        if(top > 0 || dy > 0){
+          this.activeWidget.style.top = top + dy > 0 ? (this.activeWidget.style.top + dy).toString()+'px' : 0;
         }
-        if(this.activeWidget.style.left > 0 || dx > 0){
-          this.activeWidget.style.left = this.activeWidget.style.left + dx > 0 ? this.activeWidget.style.left + dx : 0;
+        if(left > 0 || dx > 0){
+          this.activeWidget.style.left = left + dx > 0 ? (this.activeWidget.style.left + dx).toString()+'px' : 0;
         }
       }
     }
@@ -221,15 +227,15 @@ export class NgGrid implements OnInit {
   }
 
   private _getPosition(){
-    let col = Math.round(this.activeWidget.style.left / (this.gridConfig.colWidth + this.gridConfig.marginLeft/2))+ 1;
-		let row = Math.round(this.activeWidget.style.top / (this.gridConfig.rowHeight + this.gridConfig.marginTop/2)) + 1;
+    let col = Math.round(parseInt(this.activeWidget.style.left) / (this.gridConfig.colWidth + this.gridConfig.marginLeft/2))+ 1;
+		let row = Math.round(parseInt(this.activeWidget.style.top) / (this.gridConfig.rowHeight + this.gridConfig.marginTop/2)) + 1;
 
     return {'col':col,'row':row};
   }
 
   private _getSize(){
-    let x =  Math.round(this.activeWidget.style.width / (this.gridConfig.colWidth + this.gridConfig.marginLeft/2));
-    let y =  Math.round(this.activeWidget.style.height / (this.gridConfig.rowHeight + this.gridConfig.marginTop/2));
+    let x =  Math.round(parseInt(this.activeWidget.style.width) / (this.gridConfig.colWidth + this.gridConfig.marginLeft/2));
+    let y =  Math.round(parseInt(this.activeWidget.style.height) / (this.gridConfig.rowHeight + this.gridConfig.marginTop/2));
 
     return {'x':x,'y':y};
   }
@@ -310,10 +316,10 @@ export class NgGrid implements OnInit {
       maxCol = this.ngWidgetShadow.position.col + this.ngWidgetShadow.size.x - 1;
     if((this.ngWidgetShadow.position.row + this.ngWidgetShadow.size.y -1) > maxRow)
       maxRow = this.ngWidgetShadow.position.row + this.ngWidgetShadow.size.y -1;
-    this.gridStyle.width = (maxCol * (this.gridConfig.colWidth+2)) + (maxCol * this.gridConfig.marginLeft)
-    + this.gridConfig.marginRight;
-    this.gridStyle.height = (maxRow * (this.gridConfig.rowHeight+2)) + (maxRow * this.gridConfig.marginTop)
-    + this.gridConfig.marginBottom;
+    this.gridStyle.width = ((maxCol * (this.gridConfig.colWidth+2)) + (maxCol * this.gridConfig.marginLeft)
+    + this.gridConfig.marginRight).toString()+'px';
+    this.gridStyle.height = ((maxRow * (this.gridConfig.rowHeight+2)) + (maxRow * this.gridConfig.marginTop)
+    + this.gridConfig.marginBottom).toString()+'px';
   }
 
 }
