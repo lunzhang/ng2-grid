@@ -4,22 +4,22 @@ import { GridItem } from '../griditem/griditem';
 @Component({
   moduleId: module.id,
   selector: 'widget-shadow',
-  template: '<div id="widget-shadow" [ngStyle]="style"></div>',
+  templateUrl: './widgetshadow.html',
   styleUrls:['./widgetshadow.css']
 })
 export class NgWidgetShadow extends GridItem {
 
-style:any={
-  position:'absolute',
-  opacity: '0.3'
-};
+  style:any={
+    position:'absolute',
+    opacity: '0.3'
+  };
 
-deactivate(){
-  this.style.display = 'none';
-}
+  deactivate(){
+    this.style.display = 'none';
+  }
 
-activate(){
-  this.style.display = 'inline';
-}
+  activate(){
+    this.style.display = 'inline';
+  }
 
 }

@@ -3,9 +3,9 @@ A grid component for angular 2 application. [demo](https://lunzhang.github.io/ng
 
 ### Installation
 ----------
-1.npm install ng2-grid-component
+1. ```npm install --save ng2-grid-component```
 
-2.import in @NgModule 
+2. Import in @NgModule
 ```typescript
 import { GridModule } from 'ng2-grid-component';
 
@@ -13,19 +13,7 @@ import { GridModule } from 'ng2-grid-component';
   imports:      [ GridModule ]....
 ```
 
-3.add into systemjs.config.js
-```typescript
-map: {
-'ng2-grid-component':'npm:ng2-grid-component/src'....
-},
-packages: {
-'ng2-grid-component':{
-        main: './main.js',
-        defaultExtension: 'js'
-      }...
-}
-```
-4.use in your component
+3. Use in your component
 ```typescript
 import { NgGrid } from 'ng2-grid-component';
 @Component({
@@ -39,21 +27,28 @@ export class AppComponent {
     }
 }
 ```
-5.To load component into widget
 
-5.1.add component to @NgModule
+4.1 Add Custom component to @NgModule
 ```typescript
-import { ContentComponent }   from './content/content.component';
+import { CustomComponent }   from './custom/custom.component';
 @NgModule({
    ...
-  declarations: [ContentComponent ],
-  entryComponents: [ ContentComponent ]...
+  declarations: [CustomComponent ],
+  entryComponents: [ CustomComponent ]...
 })
 ```
-5.2 add component to widget
+4.2 Add Custom component to widget
 ```typescript
-import { ContentComponent } from './content/content.component';
+import { CustomComponent } from './custom/custom.component';
 
 var widget = this.grid.addWidget();
-widget.content = ContentComponent;
+widget.content = CustomComponent;
+```
+
+### Systemjs Users
+```typescript
+map: {
+'ng2-grid-component':'npm:ng2-grid-component/src/main.js'....
+},
+
 ```

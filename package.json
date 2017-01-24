@@ -1,6 +1,6 @@
 {
   "name": "ng2-grid-component",
-  "version": "0.2.78",
+  "version": "0.2.8",
   "description": "angular 2 grid layout",
   "main": "dist/main.js",
   "scripts": {
@@ -47,6 +47,7 @@
     "lite-server": "^2.2.2",
     "ng2-grid-component": "^0.2.1",
     "reflect-metadata": "^0.1.8",
+    "run-sequence": "^1.2.2",
     "rxjs": "5.0.0-beta.12",
     "systemjs": "0.19.39",
     "typescript": "^2.0.3",

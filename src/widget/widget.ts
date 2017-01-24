@@ -4,10 +4,7 @@ import { GridItem } from '../griditem/griditem';
 @Component({
   moduleId: module.id,
   selector: 'widget',
-  template: '<div [ngStyle]="style" [id]="id" class="widget">'+
-  '<div [ngStyle]="headerStyle" #header class="widget-header"><div class="widget-header-title">{{widgetTitle}}</div><div class="widget-header-option"><button (click)="close()">X</button></div></div>'+
-  '<div [ngStyle]="contentStyle" class="widget-content"><div #target></div> </div>'+
-  '<div [ngStyle]="resizeStyle" #resizer class="widget-resize"></div> </div>',
+  templateUrl: './widget.html',
   styleUrls:['./widget.css']
 })
 export class NgWidget extends GridItem {

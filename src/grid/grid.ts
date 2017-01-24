@@ -5,9 +5,7 @@ import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
 @Component({
     moduleId: module.id,
     selector: 'grid',
-    template: '<div #grid [ngStyle]="gridStyle" class="grid" [ngClass]="gridConfig.theme"> <widget-shadow [gridConfig]="gridConfig" > </widget-shadow>'+
-    '<widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" (onClose)="onClose($event)" '+
-    '[id]="widget.id" [content]="widget.content" [position]="widget.position" [widgetTitle]="widget.widgetTitle" [gridConfig]="gridConfig" > </widget> </div>',
+    templateUrl: './grid.html',
     styleUrls:['./grid.css']
 })
 export class NgGrid implements OnInit {
