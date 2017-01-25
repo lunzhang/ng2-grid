@@ -1,6 +1,6 @@
 {
   "name": "ng2-grid-component",
-  "version": "0.2.8",
+  "version": "0.2.81",
   "description": "angular 2 grid layout",
   "main": "dist/main.js",
   "scripts": {
@@ -22,12 +22,7 @@
   "license": "ISC",
   "homepage": "https://github.com/lunzhang/ng2-grid",
   "files": [
-    "dist/main*",
-    "dist/grid/*",
-    "dist/module/*",
-    "dist/widget/*",
-    "dist/griditem/*",
-    "dist/widgetshadow/*"
+    "dist/*"
   ],
   "devDependencies": {
     "@angular/common": "~2.2.2",

@@ -48,7 +48,12 @@ widget.content = CustomComponent;
 ### Systemjs Users
 ```typescript
 map: {
-'ng2-grid-component':'npm:ng2-grid-component/src/main.js'....
+'ng2-grid-component':'npm:ng2-grid-component/dist'....
 },
+packages: {
+  'ng2-grid-component':{
+    main: './main.js',
+    defaultExtension: 'js'
+  }
 
 ```
