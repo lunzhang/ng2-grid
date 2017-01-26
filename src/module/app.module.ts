@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgGrid } from '../grid/grid';
 import { NgWidget } from '../widget/widget';
 import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
 
 @NgModule({
-  imports:[BrowserModule],
+  imports:[CommonModule],
   declarations:[ NgGrid,NgWidget,NgWidgetShadow ],
   exports:[ NgGrid,NgWidget,NgWidgetShadow ]
 })

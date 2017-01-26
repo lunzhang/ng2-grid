@@ -11,3 +11,7 @@ npm-debug.log
 .npmignore
 dist
 npm-debug.log.*
+src/*.ngsummary.json
+src/*/*.ngsummary.json
+src/*/*.ngfactory.ts
+src/*/*.ngstyle.ts

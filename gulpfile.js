@@ -1,9 +1,5 @@
 var gulp = require('gulp');
 var path = require('path');
-var del = require('del');
-var sourcemaps = require('gulp-sourcemaps');
-var typescript = require('gulp-typescript');
-var merge = require('merge2');
 var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var runSequence = require('run-sequence');
@@ -27,41 +23,16 @@ const fs = require('fs');
 const glob = require('glob');
 const readFile = promiseify(fs.readFile);
 const writeFile = promiseify(fs.writeFile);
-const gulpRollup = require('gulp-better-rollup');
 
 var paths = {
   sass: ['./src/**/*.scss']
 };
-
-var tsProject = typescript.createProject('tsconfig.build.json');
-
-//removes dist folder
-gulp.task('clean', function() {
-	return del(['dist']);
-});
-
-//builds ts files
-gulp.task('ts',function(){
-	var tsResult = tsProject.src()
-		.pipe(sourcemaps.init())
-		.pipe(tsProject());
-
-	return merge([
-		tsResult.js.pipe(sourcemaps.write('')).pipe(gulp.dest(path.join('dist'))),
-		tsResult.dts.pipe(gulp.dest(path.join('dist')))
-	]);
-});
 
 //compiles sass
 gulp.task('sass',function(){
 	gulp.src(paths.sass, {base: "./"}).pipe(sass().on('error', sass.logError))
 	.pipe(minifyCss())
 	.pipe(gulp.dest("."));
-});
-
-//build task for prod
-gulp.task('build', function() {
-  runSequence('sass','copy','ts','inline');
 });
 
 //copies css and html files
