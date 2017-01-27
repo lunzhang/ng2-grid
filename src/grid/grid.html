@@ -1,8 +1,7 @@
 <div #grid [ngStyle]="gridStyle" class="grid" [ngClass]="gridConfig.theme">
-  <widget-shadow [gridConfig]="gridConfig" >
-  </widget-shadow>
+  <widget-shadow> </widget-shadow>
   <widget *ngFor="let widget of widgets" (onActivateWidget)="onActivateWidget($event)" (onClose)="onClose($event)"
   [id]="widget.id" [innerComponent]="widget.innerComponent" [position]="widget.position"
-  [widgetTitle]="widget.widgetTitle" [gridConfig]="gridConfig" [innerHTML]="widget.innerHTML">
+  [widgetTitle]="widget.widgetTitle" [innerHTML]="widget.innerHTML">
   </widget>
 </div>

@@ -1,6 +1,7 @@
 import { Component,HostListener,ViewChild,ViewChildren,Input,Output,EventEmitter,OnInit,QueryList} from '@angular/core';
 import { NgWidget } from '../widget/widget';
 import { NgWidgetShadow } from '../widgetshadow/widgetshadow';
+import { GridItem } from '../griditem/griditem';
 
 @Component({
     moduleId: module.id,
@@ -58,6 +59,7 @@ export class NgGrid implements OnInit {
     for(var config in this.customConfig){
       this.gridConfig[config] = this.customConfig[config];
     }
+    GridItem.gridConfig = this.gridConfig;
   }
 
   @HostListener('mousedown', ['$event'])
@@ -211,8 +213,8 @@ export class NgGrid implements OnInit {
         'row': 1
       },
       size:{
-        'x':1,
-        'y':1
+        'x':GridItem.gridConfig.minWidth,
+        'y':GridItem.gridConfig.minHeight
       }
     };
     this.widgets.push(newWidget);
@@ -269,8 +271,8 @@ export class NgGrid implements OnInit {
   private _findEmptyCol(){
     var col = 0;
     this.widgets.forEach((widget)=>{
-      if(widget.position.col > col)
-        col = widget.position.col;
+      if(widget.position.col + widget.size.x > col)
+        col = widget.position.col + widget.size.x - 1;
     });
     return col+1;
   }

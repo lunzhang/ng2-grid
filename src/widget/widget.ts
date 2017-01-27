@@ -9,24 +9,11 @@ import { GridItem } from '../griditem/griditem';
 })
 export class NgWidget extends GridItem {
 
-  public style:any={
-      'position':'absolute',
-      'overflow':'hidden',
-      'cursor':'auto'
-  };
-  public resizeStyle={
-    'position':'absolute',
-    'cursor':'nwse-resize'
-  };
-  public headerStyle={
-    'width': '100%',
-    'position':'relative',
-    'cursor':'move'
-  };
-  public contentStyle={
-    'position':'relative',
-    'overflow':'auto'
-  };
+  public style:any={'position':'absolute','overflow':'hidden','cursor':'auto'};
+  public resizeStyle={'position':'absolute','cursor':'nwse-resize'};
+  public headerStyle={'width': '100%','position':'relative','cursor':'move'};
+  public contentStyle={'position':'relative','overflow':'auto'};
+  public size:any={'x':GridItem.gridConfig.minWidth,'y':GridItem.gridConfig.minHeight};
 
   public isDrag:boolean=false;
   public isResize:boolean=false;
@@ -37,7 +24,6 @@ export class NgWidget extends GridItem {
   @Input() innerComponent;
   @Input() innerHTML;
   @Input() position;
-  @Input() gridConfig;
   @Input() id;
   @Input() widgetTitle;
 
@@ -50,8 +36,8 @@ export class NgWidget extends GridItem {
   }
 
   ngOnInit(){
-      this.calcPosition();
       this.calcSize();
+      this.calcPosition();
   }
 
   @HostListener('mousedown', ['$event'])

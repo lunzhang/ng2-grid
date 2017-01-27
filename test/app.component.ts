@@ -11,12 +11,14 @@ export class AppComponent implements AfterViewInit{
     @ViewChild(NgGrid) grid : NgGrid;
 
     public customConfig = {
-      'maxWidth':2,
-      'maxHeight':2,
+      'maxWidth':5,
+      'maxHeight':5,
+      'minWidth':2,
+      'minHeight':2,
       'theme':'sky'
     };
     ngAfterViewInit(){
-      for(let i = 0;i < 5; i++){
+      for(let i = 0;i < 3; i++){
         var widget = this.grid.addWidget();
         widget.content = ContentComponent;
         widget.widgetTitle = widget.id;

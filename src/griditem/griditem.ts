@@ -6,7 +6,7 @@ export class GridItem{
   public position:any={};
   public size:any={'x':1,'y':1};
 
-  @Input() gridConfig;
+  public static gridConfig;
 
   setPosition(newPosition){
     this.position = newPosition;
@@ -19,15 +19,15 @@ export class GridItem{
   }
 
   calcPosition(){
-    const x: number = (this.gridConfig.colWidth + this.gridConfig.marginLeft+2) * (this.position.col - 1) + this.gridConfig.marginLeft;
-    const y: number = (this.gridConfig.rowHeight + this.gridConfig.marginTop+2) * (this.position.row - 1) + this.gridConfig.marginTop;
+    const x: number = (GridItem.gridConfig.colWidth + GridItem.gridConfig.marginLeft+2) * (this.position.col - 1) + GridItem.gridConfig.marginLeft;
+    const y: number = (GridItem.gridConfig.rowHeight + GridItem.gridConfig.marginTop+2) * (this.position.row - 1) + GridItem.gridConfig.marginTop;
     this.style.left = x.toString()+'px';
     this.style.top = y.toString()+'px';
   }
 
   calcSize(){
-    const w: number = (this.gridConfig.colWidth * this.size.x) + (this.gridConfig.marginLeft * (this.size.x - 1));
-		const h: number = (this.gridConfig.rowHeight * this.size.y) + (this.gridConfig.marginTop * (this.size.y - 1));
+    const w: number = (GridItem.gridConfig.colWidth * this.size.x) + (GridItem.gridConfig.marginLeft * (this.size.x - 1));
+		const h: number = (GridItem.gridConfig.rowHeight * this.size.y) + (GridItem.gridConfig.marginTop * (this.size.y - 1));
     this.style.width = w.toString()+'px';
     this.style.height = h.toString()+'px';
   }
