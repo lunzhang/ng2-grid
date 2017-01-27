@@ -34,7 +34,8 @@ export class NgWidget extends GridItem {
 
   @Output() onActivateWidget = new EventEmitter<NgWidget>();
   @Output() onClose = new EventEmitter<NgWidget>();
-  @Input() content;
+  @Input() innerComponent;
+  @Input() innerHTML;
   @Input() position;
   @Input() gridConfig;
   @Input() id;
@@ -80,9 +81,9 @@ export class NgWidget extends GridItem {
   }
 
   ngOnChanges(changes){
-    if(changes.content && changes.content.currentValue){
+    if(changes.innerComponent && changes.innerComponent.currentValue){
       this.target.clear();
-      let factory = this.componentFactoryResolver.resolveComponentFactory(this.content);
+      let factory = this.componentFactoryResolver.resolveComponentFactory(this.innerComponent);
       this.target.createComponent(factory);
     }
   }
