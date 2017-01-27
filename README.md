@@ -42,7 +42,8 @@ import { CustomComponent }   from './custom/custom.component';
 import { CustomComponent } from './custom/custom.component';
 
 var widget = this.grid.addWidget();
-widget.content = CustomComponent;
+widget.innerComponent = CustomComponent; //or
+widget.innerHTML = "<div> Hello I'm inside the widget </div>";
 ```
 
 ### Systemjs Users
