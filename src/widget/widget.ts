@@ -9,10 +9,7 @@ import { GridItem } from '../griditem/griditem';
 })
 export class NgWidget extends GridItem {
 
-  public style:any={'position':'absolute','overflow':'hidden','cursor':'auto'};
-  public resizeStyle={'position':'absolute','cursor':'nwse-resize'};
-  public headerStyle={'width': '100%','position':'relative','cursor':'move'};
-  public contentStyle={'position':'relative','overflow':'auto'};
+  public style:any={};
   public size:any={'x':GridItem.gridConfig.minWidth,'y':GridItem.gridConfig.minHeight};
 
   public isDrag:boolean=false;

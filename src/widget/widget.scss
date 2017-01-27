@@ -1,3 +1,8 @@
+.widget{
+  position:absolute;
+  overflow:hidden;
+  cursor:auto;
+}
 .widget-header-title{
   height: 49px;
   white-space: nowrap;
@@ -8,15 +13,22 @@
   vertical-align:top;
 }
 .widget-resize{
+  position:absolute;
+  cursor:nwse-resize;
   width:20px;
   height:20px;
   bottom:0px;
   right:0px;
 }
 .widget-header{
+  width: 100%;
+  position:relative;
+  cursor:move;
   height:50px;
 }
 .widget-content{
+  position:relative;
+  overflow:auto;
   height:calc(100% - 70px);
   margin:10px 10px 10px 10px;
 }

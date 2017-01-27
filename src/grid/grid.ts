@@ -24,36 +24,13 @@ export class NgGrid implements OnInit {
 
   @Input() customConfig:any;
 
-  public gridStyle:any= {
-    'position':'relative',
-    '-webkit-touch-callout': 'none',
-    '-webkit-user-select': 'none',
-     '-khtml-user-select': 'none',
-       '-moz-user-select': 'none',
-        '-ms-user-select': 'none',
-            'user-select': 'none'
-  };
-  public gridConfig:any={
-    'maxCol':5,
-    'maxRow':5,
-    'theme':'light',
-    'colWidth':250,
-    'rowHeight':180,
-    'marginLeft':10,
-    'marginTop':10,
-    'marginRight':10,
-    'marginBottom':10,
-    'minWidth':1,
-    'minHeight':1,
-    'maxWidth':-1,
-    'maxHeight':-1
+  public gridStyle:any= {};
+  public gridConfig:any={'maxCol':5,'maxRow':5,'theme':'light','colWidth':250,'rowHeight':180,'marginLeft':10,
+    'marginTop':10,'marginRight':10,'marginBottom':10,'minWidth':1,'minHeight':1,'maxWidth':-1,'maxHeight':-1
   };
   public activeWidget:NgWidget;
   public widgets=[];
-  public windowScroll:any={
-    x:0,
-    y:0
-  };
+  public windowScroll:any={x:0,y:0};
 
   ngOnInit(){
     for(var config in this.customConfig){
