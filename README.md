@@ -3,9 +3,9 @@ A grid component for angular 2 application. [demo](https://lunzhang.github.io/ng
 
 ### Installation
 ----------
-1. ```npm install --save ng2-grid-component```
+1 ```npm install --save ng2-grid-component```
 
-2. Import in @NgModule
+2 Import in @NgModule
 ```typescript
 import { GridModule } from 'ng2-grid-component';
 
@@ -13,7 +13,7 @@ import { GridModule } from 'ng2-grid-component';
   imports:      [ GridModule ]....
 ```
 
-3. Use in your component
+3 Use in your component
 ```typescript
 import { NgGrid } from 'ng2-grid-component';
 @Component({
@@ -49,7 +49,46 @@ widget.innerHTML = "<div> Hello I'm inside the widget </div>";
 ### Systemjs Users
 ```typescript
 map: {
-'ng2-grid-component':'npm:ng2-grid-component/dist/bundles/ng2-grid.umd.min.js'....
+  'ng2-grid-component':'npm:ng2-grid-component/dist/bundles/ng2-grid.umd.min.js'....
 }
 
+```
+### Config
+```typescript
+{
+  'maxCol':5,
+  'maxRow':5,
+  'theme':'light',
+  'colWidth':250,
+  'rowHeight':180,
+  'marginLeft':10,
+  'marginTop':10,
+  'marginRight':10,
+  'marginBottom':10,
+  'minWidth':1,
+  'minHeight':1,
+  'maxWidth':-1,
+  'maxHeight':-1
+}
+```
+Example
+```typescript
+<grid [customConfig]="customConfig"></grid> .....
+public customConfig = {
+      'maxWidth':5,
+      'maxHeight':5,
+      'minWidth':2,
+      'minHeight':2,
+      'theme':'sky'
+};
+```
+### Event Handling
+grid emits these events
+```typescript
+  @Output() public onDragStart: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+  @Output() public onDrag: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+  @Output() public onDragStop: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+  @Output() public onResizeStart: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+  @Output() public onResize: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
+  @Output() public onResizeStop: EventEmitter<NgWidget> = new EventEmitter<NgWidget>();
 ```
