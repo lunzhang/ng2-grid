@@ -12,6 +12,7 @@
 .widget-header-option{
   vertical-align:top;
   width:43px;
+  height:100%;
 }
 .widget-resize{
   position:absolute;
@@ -46,7 +47,7 @@
     height: 100%;
     width: 100%;
     padding:0;
-    cursor:hand;
+    cursor:pointer;
     &:focus{
       outline:none;
     }

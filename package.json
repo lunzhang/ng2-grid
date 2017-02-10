@@ -1,6 +1,6 @@
 {
   "name": "ng2-grid-component",
-  "version": "0.3.1",
+  "version": "0.3.21",
   "description": "angular 2 grid layout",
   "main": "dist/bundles/ng2-grid.umd.js",
   "module": "index.js",
