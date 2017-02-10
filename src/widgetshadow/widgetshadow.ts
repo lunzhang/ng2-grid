@@ -11,10 +11,12 @@ export class NgWidgetShadow extends GridItem {
 
   style:any={};
 
+  //deactives shadow
   deactivate(){
     this.style.display = 'none';
   }
 
+  //actives shadow
   activate(){
     this.style.display = 'inline';
   }
